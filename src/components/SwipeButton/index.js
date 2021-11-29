@@ -101,6 +101,33 @@ const SwipeButton = props => {
     titleStyles,
     width,
   } = props;
+
+  const renderTitle = () => {
+    if (typeof title === 'string') {
+      return (
+        <Text
+          maxFontSizeMultiplier={titleMaxFontScale}
+          ellipsizeMode={'tail'}
+          numberOfLines={1}
+          importantForAccessibility={
+            screenReaderEnabled ? 'no-hide-descendants' : ''
+          }
+          style={[
+            styles.title,
+            {
+              color: titleColor,
+              fontSize: titleFontSize,
+              ...titleStyles,
+            },
+          ]}>
+          {title}
+        </Text>
+      )
+    }
+
+    return title
+  }
+
   return (
     <View
       style={[
@@ -115,23 +142,7 @@ const SwipeButton = props => {
         },
       ]}
       onLayout={onLayoutContainer}>
-      <Text
-        maxFontSizeMultiplier={titleMaxFontScale}
-        ellipsizeMode={'tail'}
-        numberOfLines={1}
-        importantForAccessibility={
-          screenReaderEnabled ? 'no-hide-descendants' : ''
-        }
-        style={[
-          styles.title,
-          {
-            color: titleColor,
-            fontSize: titleFontSize,
-            ...titleStyles,
-          },
-        ]}>
-        {title}
-      </Text>
+      {renderTitle()}
       {layoutWidth > 0 && (
         <SwipeThumb
           disabled={disabled}
@@ -223,7 +234,12 @@ SwipeButton.propTypes = {
   ]),
   thumbIconStyles: PropTypes.object,
   thumbIconWidth: PropTypes.number,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
   titleColor: PropTypes.string,
   titleFontSize: PropTypes.number,
   titleMaxFontScale: PropTypes.number,
