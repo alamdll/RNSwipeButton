@@ -99,33 +99,34 @@ const SwipeButton = props => {
     titleFontSize,
     titleMaxFontScale,
     titleStyles,
+    titleComponent,
     width,
   } = props;
 
   const renderTitle = () => {
-    if (typeof title === 'string') {
-      return (
-        <Text
-          maxFontSizeMultiplier={titleMaxFontScale}
-          ellipsizeMode={'tail'}
-          numberOfLines={1}
-          importantForAccessibility={
-            screenReaderEnabled ? 'no-hide-descendants' : ''
-          }
-          style={[
-            styles.title,
-            {
-              color: titleColor,
-              fontSize: titleFontSize,
-              ...titleStyles,
-            },
-          ]}>
-          {title}
-        </Text>
-      )
+    if (titleComponent) {
+      return titleComponent;
     }
-
-    return title
+    
+    return (
+      <Text
+        maxFontSizeMultiplier={titleMaxFontScale}
+        ellipsizeMode={'tail'}
+        numberOfLines={1}
+        importantForAccessibility={
+          screenReaderEnabled ? 'no-hide-descendants' : ''
+        }
+        style={[
+          styles.title,
+          {
+            color: titleColor,
+            fontSize: titleFontSize,
+            ...titleStyles,
+          },
+        ]}>
+        {title}
+      </Text>
+    )
   }
 
   return (
@@ -244,6 +245,11 @@ SwipeButton.propTypes = {
   titleFontSize: PropTypes.number,
   titleMaxFontScale: PropTypes.number,
   titleStyles: PropTypes.object,
+  titleComponent: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.node,
+    PropTypes.func,
+  ]),
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 

@@ -32,6 +32,7 @@ interface Props {
     titleFontSize?: number;
     titleMaxFontScale?: number;
     titleStyles?: StyleProp<TextStyle>;
+    titleComponent?: ReactElement;
     width?: string | number;
 }
 
